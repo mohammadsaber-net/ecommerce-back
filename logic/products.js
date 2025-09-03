@@ -26,6 +26,21 @@ const getProduct=catchMistakes(
         data:{product}
     })
 })
+const getProductByCategory=catchMistakes(
+    async(req,res,next)=>{
+        const category=req.params.category
+        const products=await Products.find({category:category})
+        if(products.length<=0) {
+            handleError("there's no products in this category",values.FAIL,404,next)
+        }
+        res.status(200).json({
+            status:values.SUCCESS,
+            data:{
+                products
+            }
+        })
+    }
+)
 const postProduct=catchMistakes(
     async(req,res,next)=>{
      const errors=validationResult(req)
@@ -60,4 +75,4 @@ const deleteProduct=catchMistakes(
     const product = await Products.findOneAndDelete({"_id":req.params.id})
     return res.status(200).json("product has been deleted")
 })
-export default {getProducts,getProduct,postProduct,updateProduct,deleteProduct}
+export default {getProducts,getProduct,postProduct,updateProduct,getProductByCategory,deleteProduct}
