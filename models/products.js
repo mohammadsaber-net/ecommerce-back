@@ -15,18 +15,7 @@ const productsSchema=new mongoose.Schema({
     category: {
         type:String,
         required:true
-    },
-    rating: {
-      rate:{
-        type:Number,
-        required:true
-    },
-      count: {
-        type:Number,
-        required:true
-    }
-    },
-    image:{
+    },image:{
         type:String,
         default:"images/defaultProfile.png"
     }
