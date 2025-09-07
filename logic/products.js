@@ -47,6 +47,11 @@ const postProduct=catchMistakes(
     if(!errors.isEmpty()){
         handleError(errors.array(),values.FAIL,404,next)
     }
+    console.log("image is : ",req.file.filename);
+    console.log("body is : ",req.body);
+    if (!req.file) {
+            return handleError("يجب إرفاق ملف صورة", values.FAIL, 400, next);
+        }
     const newProduct=new Products(req.body)
     newProduct.image=req.file.filename
     await newProduct.save()
@@ -58,7 +63,11 @@ const updateProduct= catchMistakes(
     if(!id){
         handleError("this id is not belong to any product",values.FAIL,400,next)
     }
-    const product=await Products.findOneAndUpdate({"_id":req.params.id},{$set:{...req.body}})
+    let updatedData={...req.body}
+    if(req.file){
+        updatedData.image=req.file.filename
+    }
+    const product=await Products.findOneAndUpdate({"_id":req.params.id},{$set:{...updatedData}},{new:true})
     res.status(200).json({
         status:values.SUCCESS,
         body:{

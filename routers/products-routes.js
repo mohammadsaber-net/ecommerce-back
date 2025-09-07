@@ -11,6 +11,6 @@ router.route("/")
         // productValidationf,
 router.get("/:id", products.getProduct)
 router.get("/category/:category", products.getProductByCategory)
-router.patch("/:id",handlejwt,allowedTo(values.ADMIN),products.updateProduct)
+router.patch("/:id",handlejwt,allowedTo(values.ADMIN),upload.single("image"),products.updateProduct)
 router.delete("/:id",handlejwt,allowedTo(values.ADMIN),products.deleteProduct)
 export default router
