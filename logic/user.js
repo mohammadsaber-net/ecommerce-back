@@ -58,9 +58,10 @@ const login=catchMistakes(
             return handleError("password is incorrect",values.FAIL,404,next)
         }
         const token=jwt.sign({email:email,id:oldEmail._id,role:oldEmail.role},process.env.JWT_SECRET_KEY,{expiresIn:"90MIN"})
-        res.status(201).json({
+        res.status(200).json({
             status:values.SUCCESS,
-            token
+            token,
+            role:oldEmail.role
         })
     }
 )
