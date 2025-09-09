@@ -57,7 +57,8 @@ const postProduct=catchMistakes(
     await newProduct.save()
     return res.status(201).json({
         status:values.SUCCESS,
-        product:newProduct})
+        product:newProduct
+    })
 })
 const updateProduct= catchMistakes(
     async(req,res,next)=>{
