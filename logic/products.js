@@ -55,7 +55,9 @@ const postProduct=catchMistakes(
     const newProduct=new Products(req.body)
     newProduct.image=req.file.filename
     await newProduct.save()
-    return res.status(201).json({newProduct})
+    return res.status(201).json({
+        status:values.SUCCESS,
+        product:newProduct})
 })
 const updateProduct= catchMistakes(
     async(req,res,next)=>{

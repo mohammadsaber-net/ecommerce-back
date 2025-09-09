@@ -65,4 +65,12 @@ const login=catchMistakes(
         })
     }
 )
-export default {getUsers,register,login}
+const onlyAdmin=catchMistakes(
+    async(req,res,next)=>{
+        res.status(200).json({
+            status:values.SUCCESS,
+        })
+    }
+)
+
+export default {getUsers,register,login,onlyAdmin}

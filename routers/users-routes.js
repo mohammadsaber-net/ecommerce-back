@@ -7,6 +7,7 @@ import values from '../utilites/values.js'
 const userRouter=express.Router()
 userRouter.route("/")
                 .get(handlejwt,allowedTo(values.ADMIN),user.getUsers)
+                .get("/management",handlejwt,allowedTo(values.ADMIN),user.onlyAdmin)
 userRouter.post("/register",upload.single("avatar"),registerValidtion,user.register)
 userRouter.post("/login",loginValidtion,user.login)
 export default userRouter
