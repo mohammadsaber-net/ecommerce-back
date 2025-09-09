@@ -8,7 +8,7 @@ const getProducts=catchMistakes(
     if(products.length<=0) {
         handleError("there's no products yet",values.FAIL,404,next)
     }
-    res.status(200).json({
+    res.status(201).json({
         status:values.SUCCESS,
         data:{
             products
