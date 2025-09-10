@@ -52,12 +52,12 @@ const postProduct=catchMistakes(
     if (!req.file) {
             return handleError("image must be uploaded", values.FAIL, 400, next);
         }
-    const newProduct=new Products(req.body)
-    newProduct.image=req.file.filename
-    await newProduct.save()
+    const product=new Products(req.body)
+    product.image=req.file.filename
+    await product.save()
     return res.status(201).json({
         status:values.SUCCESS,
-        product:newProduct
+        product
     })
 })
 const updateProduct= catchMistakes(
