@@ -8,7 +8,7 @@ const getProducts=catchMistakes(
     if(products.length<=0) {
         handleError("there's no products yet",values.FAIL,404,next)
     }
-    res.status(201).json({
+    res.status(200).json({
         status:values.SUCCESS,
         data:{
             products
@@ -50,7 +50,7 @@ const postProduct=catchMistakes(
     console.log("image is : ",req.file.filename);
     console.log("body is : ",req.body);
     if (!req.file) {
-            return handleError("يجب إرفاق ملف صورة", values.FAIL, 400, next);
+            return handleError("image must be uploaded", values.FAIL, 400, next);
         }
     const newProduct=new Products(req.body)
     newProduct.image=req.file.filename
