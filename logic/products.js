@@ -43,6 +43,7 @@ const getProductByCategory=catchMistakes(
 )
 const postProduct=catchMistakes(
     async(req,res,next)=>{
+    console.log("hello from render")
      const errors=validationResult(req)
     if(!errors.isEmpty()){
         handleError(errors.array(),values.FAIL,404,next)
@@ -51,10 +52,14 @@ const postProduct=catchMistakes(
     console.log("body is : ",req.body);
     if (!req.file) {
             return handleError("image must be uploaded", values.FAIL, 400, next);
-        }
+    }
     const product=new Products(req.body)
     product.image=req.file.filename
     await product.save()
+    console.log({
+        status:values.SUCCESS,
+        product
+    })
     return res.status(201).json({
         status:values.SUCCESS,
         product
