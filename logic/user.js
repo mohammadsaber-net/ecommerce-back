@@ -30,7 +30,7 @@ const register=catchMistakes(
             return handleError("this email is already used",values.FAIL,400,next)
         }
         password=await bcrypt.hash(password,8)
-        let user=new Users({name,email,phone,password,role,avatar:req.file.filename})
+        let user=new Users({name,email,phone,password,role,avatar:req.file.filename||"images/defaultProfile.png"})
         const token=jwt.sign({email:email,id:user._id,role:role},process.env.JWT_SECRET_KEY,{expiresIn:"90MIN"})
         user.token=token
         await user.save()
