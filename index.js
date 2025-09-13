@@ -11,7 +11,7 @@ import values from './utilites/values.js'
 const app = express()
 app.use(helmet())
 app.disable("x-powered-by");
-const allowedOrigins = ['https://mohammadsaber-net.github.io','http://localhost:3000'];
+const allowedOrigins = ['https://react-ecommerce-mocha-mu.vercel.app','http://localhost:3000'];
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -27,7 +27,7 @@ app.use(express.json());
 dotenv.config()
 const url= process.env.DATABASE_URL
 let connection=mongoose.connect(url)
-connection.then(()=>{
+connection.then(async()=>{
     console.log("connection to database has established")
 })
 
