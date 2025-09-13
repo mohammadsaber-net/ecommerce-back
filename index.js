@@ -30,7 +30,6 @@ let connection=mongoose.connect(url)
 connection.then(async()=>{
     console.log("connection to database has established")
 })
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use("/images",(req,res,next)=>{
