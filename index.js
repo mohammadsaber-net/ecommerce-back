@@ -6,8 +6,10 @@ import userRouter from './routers/users-routes.js'
 import path from "path";
 import helmet from 'helmet'
 import cors from "cors"
+// import fs from "fs"
 import { fileURLToPath } from "url";
 import values from './utilites/values.js'
+// import { Products } from './models/products.js'
 const app = express()
 app.use(helmet())
 app.disable("x-powered-by");
@@ -22,12 +24,15 @@ const corsOptions = {
   },
   credentials: true
 };
+// const products = JSON.parse(fs.readFileSync("./data.json","utf8"))
 app.use(cors(corsOptions));
 app.use(express.json());
 dotenv.config()
 const url= process.env.DATABASE_URL
 let connection=mongoose.connect(url)
 connection.then(async()=>{
+  // await Products.deleteMany()
+  // await Products.insertMany(products)
     console.log("connection to database has established")
 })
 const __filename = fileURLToPath(import.meta.url);
