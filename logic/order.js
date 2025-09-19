@@ -12,7 +12,6 @@ const setCash=catchMistakes(
         const order=req.body
         const newOrder=new Orders(order)
         await newOrder.save()
-        console.log(order.email)
         try {
             await sendEmail(
             order.email,
@@ -21,14 +20,14 @@ const setCash=catchMistakes(
             تم استلام طلبك رقم ${newOrder._id}.
             سيتم التوصيل خلال 48 ساعة.`
         );
-            handleError("order Confirmed A message will arive you in this email",values.FAIL,200,next)
+           return res.status(200).json({
+                status:values.SUCCESS,
+                message:`order Confirmed A message will arive you in this email ${order.email}`
+            })
         } catch (err) {
+            console.log(err)
             handleError(err,values.FAIL,400,next)
         }
-        // res.status(201).json({
-        //     status:values.SUCCESS,
-        //     message:`order Confirmed A message will arive you in this email ${order.email}`
-        // })
     }
 )
 const getOrders=catchMistakes(
