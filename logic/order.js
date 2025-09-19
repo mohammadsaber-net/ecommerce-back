@@ -21,13 +21,14 @@ const setCash=catchMistakes(
             تم استلام طلبك رقم ${newOrder._id}.
             سيتم التوصيل خلال 48 ساعة.`
         );
+            handleError("order Confirmed A message will arive you in this email",values.FAIL,200,next)
         } catch (err) {
-            console.error("SendGrid error:", err);
+            handleError(err,values.FAIL,400,next)
         }
-        res.status(201).json({
-            status:values.SUCCESS,
-            message:`order Confirmed A message will arive you in this email ${order.email}`
-        })
+        // res.status(201).json({
+        //     status:values.SUCCESS,
+        //     message:`order Confirmed A message will arive you in this email ${order.email}`
+        // })
     }
 )
 const getOrders=catchMistakes(
