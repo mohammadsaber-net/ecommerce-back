@@ -16,10 +16,10 @@ export const handleError=(massege,value,status,next)=>{
 }
 export const handlejwt=(req,res,next)=>{
     let authHeader=req.headers["Authorization"]||req.headers["authorization"]
-   if(!authHeader){
-    handleError("token is required",values.FAIL,401,next)
-   }
-   const token=authHeader.split(" ")[1]
+    if(!authHeader){
+        handleError("token is required",values.FAIL,401,next)
+    }
+    const token=authHeader.split(" ")[1]
    try {
     const currentUser=jwt.verify(token,process.env.JWT_SECRET_KEY)
     req.currentUser=currentUser

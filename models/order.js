@@ -1,0 +1,29 @@
+import mongoose from "mongoose";
+const orderEschema=new mongoose.Schema({
+    name:{
+        type:String,
+        required:true
+    },
+    email:{
+        type:String,
+        required:true
+    },
+    phone:{
+        type:Number,
+        required:true
+    },
+    address:{
+        type:String,
+        required:true
+    },
+    items:{
+        type:String,
+        required:true
+    },
+    typeOfPayment:{
+        type:String,
+        required:true
+    },
+    
+})
+export const Orders=mongoose.model("StoreOrder",orderEschema)

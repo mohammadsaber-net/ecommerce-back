@@ -48,8 +48,6 @@ const postProduct=catchMistakes(
     if(!errors.isEmpty()){
         handleError(errors.array(),values.FAIL,404,next)
     }
-    console.log("image is : ",req.file.filename);
-    console.log("body is : ",req.body);
     if (!req.file) {
             return handleError("image must be uploaded", values.FAIL, 400, next);
     }
