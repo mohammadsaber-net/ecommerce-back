@@ -2,6 +2,7 @@ import {validationResult } from "express-validator";
 import { catchMistakes, handleError } from "../middelwares/catchLogicMistakes.js";
 import values from "../utilites/values.js";
 import { Orders } from "../models/order.js";
+import {sendEmail} from "../routers/sendEmail.js"
 const setCash=catchMistakes(
     async(req,res,next)=>{
         const errors=validationResult(req)
@@ -11,6 +12,7 @@ const setCash=catchMistakes(
         const order=req.body
         const newOrder=new Orders(order)
         await newOrder.save()
+        console.log(order.email)
         try {
             await sendEmail(
             order.email,
