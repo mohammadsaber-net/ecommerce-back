@@ -21,8 +21,7 @@ const setCash=catchMistakes(
             سيتم التوصيل خلال 48 ساعة.`
         );
            return res.status(200).json({
-                status:values.SUCCESS,
-                message:`order Confirmed A message will arive you in this email ${order.email}`
+                status:values.SUCCESS
             })
         } catch (err) {
             console.log(err)
