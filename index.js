@@ -10,6 +10,7 @@ import paymobRoutes from "./routers/paymob.js"
 import order from "./routers/orders.js"
 import { fileURLToPath } from "url";
 import values from './utilites/values.js'
+import { Orders } from './models/order.js'
 const app = express()
 app.use(helmet())
 app.disable("x-powered-by");
