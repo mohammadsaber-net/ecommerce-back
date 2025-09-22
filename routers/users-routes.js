@@ -9,4 +9,5 @@ userRouter.route("/")
                 .get(handlejwt,allowedTo(values.ADMIN),user.getUsers)
 userRouter.post("/register",upload.single("avatar"),registerValidtion,user.register)
 userRouter.post("/login",loginValidtion,user.login)
+userRouter.post("/logout",user.logout)
 export default userRouter

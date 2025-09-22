@@ -34,12 +34,21 @@ const register=catchMistakes(
         const token=jwt.sign({email:email,id:user._id,role:role},process.env.JWT_SECRET_KEY,{expiresIn:"90MIN"})
         user.token=token
         await user.save()
-        res.status(201).json({
-            status:values.SUCCESS,
-            body:{
-                user
-            }
-        })
+        
+        res.cookie("token", token, {
+        httpOnly: true,      // يمنع وصول JavaScript
+        secure: process.env.NODE_ENV === 'production',
+       // يُرسل فقط عبر HTTPS
+        sameSite: "strict",  // يقلل CSRF
+        maxAge: 1000 * 60 * 60 // ساعة مثلاً
+        });
+        res.status(200).json({ status: "SUCCESS" });
+        // res.status(201).json({
+        //     status:values.SUCCESS,
+        //     body:{
+        //         user
+        //     }
+        // })
     }
 )
 const login=catchMistakes(
@@ -58,13 +67,33 @@ const login=catchMistakes(
             return handleError("password is incorrect",values.FAIL,404,next)
         }
         const token=jwt.sign({email:email,id:oldEmail._id,role:oldEmail.role},process.env.JWT_SECRET_KEY,{expiresIn:"90MIN"})
-        res.status(200).json({
-            status:values.SUCCESS,
-            token,
-            email:oldEmail
-        })
+        res.cookie("token", token, {
+        httpOnly: true,      // يمنع وصول JavaScript
+        // secure: true,
+        secure: process.env.NODE_ENV === 'production'
+,        // يُرسل فقط عبر HTTPS
+        sameSite: "strict",  // يقلل CSRF
+        maxAge: 1000 * 60 * 60 // ساعة مثلاً
+        });
+        res.status(200).json({ status: "SUCCESS" });
+
+        // res.status(200).json({
+        //     status:values.SUCCESS,
+        //     token,
+        //     email:oldEmail
+        // })
     }
 )
+// app.post('/logout',
+const logout= catchMistakes(async(req,res,next) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict"
+  });
+  res.status(200).json({ status: "SUCCESS"});
+});
+
 const onlyAdmin=catchMistakes(
     async(req,res,next)=>{
         res.status(200).json({
@@ -73,4 +102,4 @@ const onlyAdmin=catchMistakes(
     }
 )
 
-export default {getUsers,register,login,onlyAdmin}
+export default {getUsers,register,login,onlyAdmin,logout}
