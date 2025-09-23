@@ -67,15 +67,12 @@ const login=catchMistakes(
             return handleError("password is incorrect",values.FAIL,404,next)
         }
         const token=jwt.sign({email:email,id:oldEmail._id,role:oldEmail.role},process.env.JWT_SECRET_KEY,{expiresIn:"90MIN"})
-        res.cookie("token", token, {
-        httpOnly: true,      // يمنع وصول JavaScript
-        // secure: true,
-        secure: process.env.NODE_ENV === 'production'
-,        // يُرسل فقط عبر HTTPS
-        sameSite: "strict",  // يقلل CSRF
-        maxAge: 1000 * 60 * 60 // ساعة مثلاً
+            res.cookie('token', token, {
+            httpOnly: true,
+            secure: true,        // لازم true لو على HTTPS
+            sameSite: 'None'     // مهم جداً لإرسال الكوكي عبر دومين مختلف
         });
-        res.status(200).json({ status: "SUCCESS" });
+        res.json({ success: true });
 
         // res.status(200).json({
         //     status:values.SUCCESS,
