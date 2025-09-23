@@ -94,8 +94,8 @@ const logout= catchMistakes(async(req,res,next) => {
   res.status(200).json({ status: "SUCCESS"});
 });
 const checkAuth = catchMistakes(async (req, res, next) => {
+    console.log('Cookies:', req.cookies); 
     const token = req.cookies.token;
-    console.log("hello")
   if (!token) {
     return handleError("token required", values.FAIL, 401, next);
   }

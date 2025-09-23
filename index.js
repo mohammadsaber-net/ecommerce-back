@@ -10,7 +10,7 @@ import paymobRoutes from "./routers/paymob.js"
 import order from "./routers/orders.js"
 import { fileURLToPath } from "url";
 import values from './utilites/values.js'
-import { Orders } from './models/order.js'
+import cookieParser from 'cookie-parser';
 const app = express()
 app.use(helmet())
 app.disable("x-powered-by");
@@ -27,6 +27,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
+
 dotenv.config()
 const url= process.env.DATABASE_URL
 let connection=mongoose.connect(url)
