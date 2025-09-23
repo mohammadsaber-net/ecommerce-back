@@ -93,13 +93,29 @@ const logout= catchMistakes(async(req,res,next) => {
   });
   res.status(200).json({ status: "SUCCESS"});
 });
+const checkAuth = catchMistakes(async (req, res, next) => {
+    const token = req.cookies.token;
+    console.log("hello")
+  if (!token) {
+    return handleError("token required", values.FAIL, 401, next);
+  }
 
-const onlyAdmin=catchMistakes(
-    async(req,res,next)=>{
-        res.status(200).json({
-            status:values.SUCCESS,
-        })
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const user = await Users.findById(decoded.id).select("name email role");
+    if (!user) {
+      return handleError("user not found", values.FAIL, 404, next);
     }
-)
 
-export default {getUsers,register,login,onlyAdmin,logout}
+    res.status(200).json({
+      auth: true,
+      role: user.role,
+      name: user.name,
+      email: user.email,
+    });
+  } catch (err) {
+    return handleError("invalid or expired token", values.FAIL, 401, next);
+  }
+});
+
+export default {getUsers,register,login,logout,checkAuth}

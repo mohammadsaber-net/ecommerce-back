@@ -10,4 +10,5 @@ userRouter.route("/")
 userRouter.post("/register",upload.single("avatar"),registerValidtion,user.register)
 userRouter.post("/login",loginValidtion,user.login)
 userRouter.post("/logout",user.logout)
+userRouter.get("/checkAuth",user.checkAuth)
 export default userRouter
