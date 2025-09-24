@@ -12,6 +12,7 @@ import { fileURLToPath } from "url";
 import values from './utilites/values.js'
 import cookieParser from 'cookie-parser';
 const app = express()
+app.use(cookieParser())
 app.use(helmet())
 app.disable("x-powered-by");
 const allowedOrigins = ['https://react-ecommerce-mocha-mu.vercel.app','http://localhost:3000'];
@@ -27,7 +28,6 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
-
 dotenv.config()
 const url= process.env.DATABASE_URL
 let connection=mongoose.connect(url)

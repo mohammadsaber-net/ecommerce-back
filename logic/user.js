@@ -34,21 +34,12 @@ const register=catchMistakes(
         const token=jwt.sign({email:email,id:user._id,role:role},process.env.JWT_SECRET_KEY,{expiresIn:"90MIN"})
         user.token=token
         await user.save()
-        
-        res.cookie("token", token, {
-        httpOnly: true,      // يمنع وصول JavaScript
-        secure: process.env.NODE_ENV === 'production',
-       // يُرسل فقط عبر HTTPS
-        sameSite: "strict",  // يقلل CSRF
-        maxAge: 1000 * 60 * 60 // ساعة مثلاً
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: true,  
+            sameSite: 'none'    
         });
-        res.status(200).json({ status: "SUCCESS" });
-        // res.status(201).json({
-        //     status:values.SUCCESS,
-        //     body:{
-        //         user
-        //     }
-        // })
+        res.json({ status:  values.SUCCESS });
     }
 )
 const login=catchMistakes(
@@ -69,37 +60,33 @@ const login=catchMistakes(
         const token=jwt.sign({email:email,id:oldEmail._id,role:oldEmail.role},process.env.JWT_SECRET_KEY,{expiresIn:"90MIN"})
             res.cookie('token', token, {
             httpOnly: true,
-            secure: true,        // لازم true لو على HTTPS
-            sameSite: 'None'     // مهم جداً لإرسال الكوكي عبر دومين مختلف
+            secure: true,  
+            sameSite: 'none'    
         });
-        res.json({ success: true });
-
-        // res.status(200).json({
-        //     status:values.SUCCESS,
-        //     token,
-        //     email:oldEmail
-        // })
+        //     res.cookie('token', token, {
+        //     httpOnly: true,
+        //     secure: true,  
+        //     sameSite: 'none'    
+        // });
+        res.json({ status:  values.SUCCESS });
     }
 )
-// app.post('/logout',
 const logout= catchMistakes(async(req,res,next) => {
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict"
-  });
-  res.status(200).json({ status: "SUCCESS"});
+  res.clearCookie('token',{
+            httpOnly: true,
+            secure: true,  
+            sameSite: 'none'  
+        });
+  res.status(200).json({ status: values.SUCCESS});
 });
 const checkAuth = catchMistakes(async (req, res, next) => {
-    console.log('Cookies:', req.cookies); 
-    const token = req.cookies.token;
+    const token = req.cookies.token
   if (!token) {
-    return handleError("token required", values.FAIL, 401, next);
+    return handleError("user not found", values.FAIL, 404, next);
   }
-
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    const user = await Users.findById(decoded.id).select("name email role");
+    const user = await Users.findById(decoded.id).select("email role name phone");
     if (!user) {
       return handleError("user not found", values.FAIL, 404, next);
     }
@@ -109,6 +96,7 @@ const checkAuth = catchMistakes(async (req, res, next) => {
       role: user.role,
       name: user.name,
       email: user.email,
+      phone: user.phone,
     });
   } catch (err) {
     return handleError("invalid or expired token", values.FAIL, 401, next);
