@@ -14,20 +14,47 @@ export const handleError=(massege,value,status,next)=>{
     error.status=status
     next(error)
 }
-export const handlejwt=(req,res,next)=>{
-    let authHeader=req.headers["Authorization"]||req.headers["authorization"]
-    if(!authHeader){
-        handleError("token is required",values.FAIL,401,next)
-    }
-    const token=authHeader.split(" ")[1]
-   try {
-    const currentUser=jwt.verify(token,process.env.JWT_SECRET_KEY)
-    req.currentUser=currentUser
-    next()
-   } catch (error) {
-    handleError("token is invalid",values.ERROR,401,next)
-   }
-}
+export const handlejwt = (req, res, next) => {
+  // لو لسه في حالات فيها Authorization header
+  let token;
+
+  // 1️⃣ لو لسه فيه هيدر ممكن نسمح به
+  const authHeader = req.headers.authorization || req.headers.Authorization;
+  if (authHeader?.startsWith("Bearer ")) {
+    token = authHeader.split(" ")[1];
+  }
+
+  // 2️⃣ أو خده من الكوكي
+  if (!token && req.cookies?.token) {
+    token = req.cookies.token;
+  }
+
+  if (!token) {
+    return handleError("token is required", values.FAIL, 401, next);
+  }
+
+  try {
+    const currentUser = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    req.currentUser = currentUser;
+    next();
+  } catch (error) {
+    return handleError("token is invalid", values.ERROR, 401, next);
+  }
+};
+// export const handlejwt=(req,res,next)=>{
+//     let authHeader=req.headers["Authorization"]||req.headers["authorization"]
+//     if(!authHeader){
+//         handleError("token is required",values.FAIL,401,next)
+//     }
+//     const token=authHeader.split(" ")[1]
+//    try {
+//     const currentUser=jwt.verify(token,process.env.JWT_SECRET_KEY)
+//     req.currentUser=currentUser
+//     next()
+//    } catch (error) {
+//     handleError("token is invalid",values.ERROR,401,next)
+//    }
+// }
 export const allowedTo=(...user)=>{
     return (req,res,next)=>{
         if(!user.includes(req.currentUser.role)){
