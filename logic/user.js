@@ -63,11 +63,6 @@ const login=catchMistakes(
             secure: true,  
             sameSite: 'none'    
         });
-        //     res.cookie('token', token, {
-        //     httpOnly: true,
-        //     secure: true,  
-        //     sameSite: 'none'    
-        // });
         res.json({ status:  values.SUCCESS });
     }
 )
@@ -75,7 +70,7 @@ const logout= catchMistakes(async(req,res,next) => {
   res.clearCookie('token',{
             httpOnly: true,
             secure: true,  
-            sameSite: 'none'  
+            sameSite: 'none' 
         });
   res.status(200).json({ status: values.SUCCESS});
 });
