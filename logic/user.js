@@ -62,11 +62,13 @@ const login=catchMistakes(
             res.cookie('token', token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+                sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax'
                 ,path: '/', 
              });
-
-        res.json({ status:  values.SUCCESS });
+            console.log('Set-Cookie sent:', token);
+            console.log('Request headers:', req.headers);
+            console.log('Response headers after setting cookie:', res.getHeaders());
+            res.json({ status:  "SUCCESS" });
     }
 )
 const logout= catchMistakes(async(req,res,next) => {
