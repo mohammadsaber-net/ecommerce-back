@@ -37,7 +37,8 @@ const register=catchMistakes(
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'   
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            path: '/',
         });
         res.json({ status:  values.SUCCESS });
     }
@@ -62,7 +63,8 @@ const login=catchMistakes(
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
                 sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
-            });
+                ,path: '/', 
+             });
 
         res.json({ status:  values.SUCCESS });
     }
@@ -72,7 +74,8 @@ const logout= catchMistakes(async(req,res,next) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
-        });
+            ,path: '/', 
+            });
   res.status(200).json({ status: values.SUCCESS});
 });
 const checkAuth = catchMistakes(async (req, res, next) => {
