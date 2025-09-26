@@ -36,8 +36,8 @@ const register=catchMistakes(
         await user.save()
         res.cookie('token', token, {
             httpOnly: true,
-            secure: true,  
-            sameSite: 'none'    
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'   
         });
         res.json({ status:  values.SUCCESS });
     }
@@ -59,18 +59,19 @@ const login=catchMistakes(
         }
         const token=jwt.sign({email:email,id:oldEmail._id,role:oldEmail.role},process.env.JWT_SECRET_KEY,{expiresIn:"90MIN"})
             res.cookie('token', token, {
-            httpOnly: true,
-            secure: true,  
-            sameSite: 'none'    
-        });
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+            });
+
         res.json({ status:  values.SUCCESS });
     }
 )
 const logout= catchMistakes(async(req,res,next) => {
   res.clearCookie('token',{
             httpOnly: true,
-            secure: true,  
-            sameSite: 'none' 
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
         });
   res.status(200).json({ status: values.SUCCESS});
 });

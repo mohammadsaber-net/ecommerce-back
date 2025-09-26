@@ -12,6 +12,7 @@ import { fileURLToPath } from "url";
 import values from './utilites/values.js'
 import cookieParser from 'cookie-parser';
 const app = express()
+app.set('trust proxy', 1);
 app.use(cookieParser())
 app.use(helmet())
 app.disable("x-powered-by");
