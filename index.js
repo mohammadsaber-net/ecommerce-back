@@ -3,12 +3,12 @@ import dotenv  from 'dotenv'
 import mongoose from 'mongoose'
 import router from './routers/products-routes.js'
 import userRouter from './routers/users-routes.js'
-import path from "path";
+// import path from "path";
 import helmet from 'helmet'
 import cors from "cors"
 import paymobRoutes from "./routers/paymob.js"
 import order from "./routers/orders.js"
-import { fileURLToPath } from "url";
+// import { fileURLToPath } from "url";
 import values from './utilites/values.js'
 import cookieParser from 'cookie-parser';
 const app = express()
@@ -35,13 +35,13 @@ let connection=mongoose.connect(url)
 connection.then(async()=>{
     console.log("connection to database has established")
 })
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-app.use("/images",(req,res,next)=>{
-  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
-  next()
-},
-express.static(path.join(__dirname,"images")))
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+// // app.use("/images",(req,res,next)=>{
+// //   res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+// //   next()
+// // },
+// // express.static(path.join(__dirname,"images")))
 
 app.use("/products",router)
 app.use("/user",userRouter)

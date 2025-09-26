@@ -66,8 +66,6 @@ const login=catchMistakes(
                 ,path: '/', 
              });
             console.log('Set-Cookie sent:', token);
-            console.log('Request headers:', req.headers);
-            console.log('Response headers after setting cookie:', res.getHeaders());
             res.json({ status:  "SUCCESS" });
     }
 )

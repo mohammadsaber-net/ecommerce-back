@@ -52,7 +52,7 @@ const postProduct=catchMistakes(
             return handleError("image must be uploaded", values.FAIL, 400, next);
     }
     const product=new Products(req.body)
-    product.image=req.file.filename
+    product.image = req.file.path;
     await product.save()
     console.log({
         status:values.SUCCESS,
@@ -71,7 +71,7 @@ const updateProduct= catchMistakes(
     }
     let updatedData={...req.body}
     if(req.file){
-        updatedData.image=req.file.filename
+        updatedData.image = req.file.path;
     }
     const product=await Products.findOneAndUpdate({"_id":req.params.id},{$set:{...updatedData}},{new:true})
     res.status(200).json({
