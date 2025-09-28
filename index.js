@@ -11,6 +11,7 @@ import order from "./routers/orders.js"
 // import { fileURLToPath } from "url";
 import values from './utilites/values.js'
 import cookieParser from 'cookie-parser';
+import { Orders } from './models/order.js'
 const app = express()
 app.set('trust proxy', 1);
 app.use(cookieParser())
@@ -35,14 +36,6 @@ let connection=mongoose.connect(url)
 connection.then(async()=>{
     console.log("connection to database has established")
 })
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-// // app.use("/images",(req,res,next)=>{
-// //   res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
-// //   next()
-// // },
-// // express.static(path.join(__dirname,"images")))
-
 app.use("/products",router)
 app.use("/user",userRouter)
 app.use('/paymob', paymobRoutes)

@@ -13,6 +13,7 @@ const setCash=catchMistakes(
         const Oldemail=await Orders.findOne({"email": email})
         let id=0
         if(Oldemail){
+            console.log(Oldemail.items)
             const newitems=[...Oldemail.items,...items]
             id=Oldemail._id
             const updatedData={name,email,phone,address,items:newitems,typeOfPayment}
@@ -41,6 +42,26 @@ const setCash=catchMistakes(
         }
     }
 )
+const updateOrders=catchMistakes(
+    async(req,res,next)=>{
+        
+        const {update,id}=(req.body)
+        await Orders.updateOne(
+        { _id: update },
+        { $set: { "items.$[elem].received": true } },
+        {
+            arrayFilters: [{ "elem.product._id": id }],
+            new: true
+        }
+        );
+        const order=await Orders.findById(update)
+        console.log(order)
+        res.status(201).json({
+            status:values.SUCCESS,
+            order:order
+        })
+    }
+)
 const getOrders=catchMistakes(
     async(req,res,next)=>{
         const orders=await Orders.find()
@@ -53,4 +74,4 @@ const getOrders=catchMistakes(
         })
     }
 )
-export default {setCash,getOrders}
+export default {setCash,getOrders,updateOrders}

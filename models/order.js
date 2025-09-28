@@ -23,7 +23,7 @@ const orderEschema=new mongoose.Schema({
     typeOfPayment:{
         type:String,
         required:true
-    },
+    }
     
 })
 export const Orders=mongoose.model("StoreOrder",orderEschema)
